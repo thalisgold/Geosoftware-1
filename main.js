@@ -1,61 +1,65 @@
+//author: Thalis Goldschmidt
+//Matrikelnr.: 462238
+
 "use strict"
+
+//Variables
+
+const leftUpperCorner =  polygon[3]; //Left upper corner of the polygon. It is constant because the polygon remains the same for all points.
+const rightBottomCorner = polygon[1]; //Right bottom corner of the polygon. It is constant because the polygon remains the same for all points.
+
+let pointsInsideOrOutsideArray = []; // [boolean] Array that stores the results of all calculations to find out whether a point lies inside or outside the polygon
+let intersectIndexArray = []; // [integer] Array that stores the indices, where the route enters or leaves the polygon
+let distancesPointToPoint = []; // [float] Array that stores all distances between consecutive points 
+let distancesSubsequences = []; // [float] Array that stores the calculated distances of the subsequences that were formed by the polygon
+let resultTable = []; // Array that stores information about the route section, the length of the route, the start- and end point and if the route lies within or outside the given polygon
+
+//Functions
+
 /**
-- function to find out whether a point is in a polygon or not.
-- works only with polygons which are parellel to the longitude- and latitude-axis 
-- Input: point [long,lat], leftUpperCorner (of the polygon) [long,lat], rightBottomCorner (of the polygon) [long, lat]
-- returns true if the point is inside the polygon, else false
-*/
-
-const leftUpperCorner =  polygon[3];
-const rightBottomCorner = polygon[1];
-
-let resultArray = new Array(route.length); // create array to save results (now we know which points are in- or outside)
-let intersectIndex = [];
-let distancesPointToPoint = [];
-let distancesSubsequences = [];
-let contentTable = [];
-
-function isPointInsidePolygon(point, leftUpperCornerBBox, rightBottomCornerBBox){
-    return point[0] > leftUpperCorner[0] && point[0] < rightBottomCorner[0] && point[1] < leftUpperCorner[1] && point[1] > rightBottomCorner[1]
+ * The function finds out whether a point is in- or outside a given polygon.
+ * It only works with polygons which are parellel to the longitude- and latitude-axis.
+ * @param {[float,float]} coordinates of one point given in [lng/lat] 
+ * @param {[float,float]} leftUpperCornerBBox the left upper corner of the polygon given in [lng/lat] 
+ * @param {[float,float]} rightBottomCornerBBox the right bottom corner of the polygon given in [lng/lat] 
+ * @returns true if the point is inside the polygon otherwise false
+ */
+function isPointInsidePolygon(coordinates, leftUpperCornerBBox, rightBottomCornerBBox){
+    return coordinates[0] > leftUpperCorner[0] && coordinates[0] < rightBottomCorner[0] && coordinates[1] < leftUpperCorner[1] && coordinates[1] > rightBottomCorner[1]
 }
 
-/**
-for (let index = 0; index < route.length; index++) {
-    console.log(isPointInsidePolygon(route[index],leftUpperCorner,rightBottomCorner));
-    
-}
-*/
 
 /**
-function that fills the arrays with the results wheter the points of the route are in or outside the polygon
-*/ 
-
-function fillResultArray(){
+ * This function fills the PointsInsideOrOutside-Array 
+ */
+function fillPointsInsideOrOutside(){
     for (let index = 0; index < route.length; index++) {
-        resultArray[index] = isPointInsidePolygon(route[index],leftUpperCorner,rightBottomCorner);
+        pointsInsideOrOutsideArray[index] = isPointInsidePolygon(route[index],leftUpperCorner,rightBottomCorner); //For each point the function decides if the point is in- or outside the polygon
     }
 }
 
-function fillIntersectIndex(){
-    for (let index = 0; index < resultArray.length; index++) {
-        if(index == 0  || index == resultArray.length - 1){
-            intersectIndex.push(index);
+/**
+ * The goal of the function is to find the indices where the route enters or leaves the polygon and to store the result in the IntersectIndexArray. 
+ */
+function fillIntersectIndexArray(){
+    for (let index = 0; index < pointsInsideOrOutsideArray.length; index++) {
+        if(index == 0  || index == pointsInsideOrOutsideArray.length - 1){
+            intersectIndexArray.push(index); //The first and last point of the route have to be in the array, because they are always part of the indices
         } 
-        else if (!resultArray[index] && (resultArray[index+1] || resultArray[index-1])) {
-                intersectIndex.push(index);
+        else if (!pointsInsideOrOutsideArray[index] && (pointsInsideOrOutsideArray[index+1] || pointsInsideOrOutsideArray[index-1])) {
+                intersectIndexArray.push(index); //The route enters or leaves the polygon only when the boolean is false and the next or previous is true
         } 
     }
 
 }
 
-
-fillResultArray(); // fill array
-fillIntersectIndex();
-console.table(resultArray); //show array in console
-console.table(intersectIndex);
-
-// function that calculates distances in m between two points
-
+/**
+ * This function calculates distances in m between two points.
+ * Link: https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
+ * @param {[float,float]} p1 given in [lng/lat] 
+ * @param {[float,float]} p2 given in [lng/lat] 
+ * @returns distance between the two points in meters.
+ */
 function distanceInMeter(p1,p2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(p2[1]- p1[1]);  // deg2rad below
@@ -70,25 +74,31 @@ function distanceInMeter(p1,p2) {
     return d*1000;
   }
   
+/**
+ * The function converts coordinates in degrees into coordinates of radiants.
+ * @param {float} deg coordinates (deg)
+ * @returns converted coordinates (rad)
+ */
 function deg2rad(deg) {
     return deg * (Math.PI/180);
   }
 
-  console.log(distanceInMeter(route[0],route[1]));
-
+/**
+ * The function calculates all distances between consecutive points and saves them in the distancesPointToPoint-Array.
+ */
 function calculatePointToPointDistances(){
   for (let index = 0; index < route.length-1; index++) {
       distancesPointToPoint[index] = distanceInMeter(route[index], route[index+1]);
   }
 }
 
-calculatePointToPointDistances();
-console.table(distancesPointToPoint);
-
+/**
+ * Function, that calculates the distances of the subsequences that were formed by the polygon. It saves the distances in the distancesSubsequences-Array.
+ */
 function calculateSubsequenceDistances(){
-    for (let index = 0; index < intersectIndex.length-1; index++) {
+    for (let index = 0; index < intersectIndexArray.length-1; index++) {
         var sum = 0
-        for (let i = intersectIndex[index]; i < intersectIndex[index + 1]; i++) {
+        for (let i = intersectIndexArray[index]; i < intersectIndexArray[index + 1]; i++) {
             sum += distancesPointToPoint[i];
         }
         distancesSubsequences.push(sum);
@@ -96,43 +106,40 @@ function calculateSubsequenceDistances(){
     
 }
 
-calculateSubsequenceDistances();
-console.table(distancesSubsequences);
-
-// Gesamte Länge berechnen, über alle Streckenlängen iterieren und aufaddieren
+/**
+ * This funtion calculates the total length of the route and returns it.
+ * @returns
+ */
 function totalDistance(){
     var sum = 0;
     for (let index = 0; index < distancesPointToPoint.length; index++) {
-        sum += distancesPointToPoint[index];
+        sum += distancesPointToPoint[index]; //Iterate and add up over all consecutive point distances
     }
     return sum;
 }
 
-console.log(totalDistance());
-
-//Wir wollen nun alle Daten in einem Array abspeichern also Länge der Abschnitte, Point 1 [lng, lat], Point 2 [lng, lat], und Streckenabschnitt
-// Vielleicht auch inside/outside?
-function fillContentTable(){ 
+/**
+ * This fuction fills the resultTable-Array with all attributes that we are going do display in our table.
+ * The array stores information about the route section, the length of the route, the start- and end point and if the route lies in- or outside the given polygon
+ */
+function fillResultTable(){ 
     for (let index = 0; index < distancesSubsequences.length; index++) {
-        var tableRow = Array(3);
+        var tableRow = [];
         tableRow[0] = index+1;
         tableRow[1] = distancesSubsequences[index];
-        tableRow[2] = route[intersectIndex[index]];
-        tableRow[3] = route[intersectIndex[index + 1]];
-        tableRow[4] = resultArray[intersectIndex[index] + 1]
+        tableRow[2] = route[intersectIndexArray[index]];
+        tableRow[3] = route[intersectIndexArray[index + 1]];
+        tableRow[4] = pointsInsideOrOutsideArray[intersectIndexArray[index] + 1]
 
-        contentTable.push(tableRow);
+        resultTable.push(tableRow);
     }
 }
 
-
-fillContentTable(); //contentTable füllen
-console.table(contentTable); //unsortiert ausgeben
-
-contentTable.sort((a,b) => b[1]-a[1]); // Tabelle sortieren
-
-console.table(contentTable); //Sortierte Tabelle ausgeben
-
+/**
+ * This function converts the values in the result table.
+ * The function rounds the lengths to two decimal places, brackets the coordinates and converts "True" to "Yes" and "False" to "No".
+ * @param {Array[][]} myArray two-dimensional Array
+ */
 function convertArrayValues(myArray) {
     for(var i=0; i<myArray.length; i++) {
         for(var j=0; j<myArray[i].length; j++){
@@ -155,9 +162,12 @@ function convertArrayValues(myArray) {
     }
 }
 
-convertArrayValues(contentTable); //Macht es für die Tabelle schön
-console.table(contentTable);
-
+/**
+ * This function creates html-code to generate a table out of a two-dimensional array.
+ * Link: https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
+ * @param {Array[][]} myArray two-dimensional array
+ * @returns HTML-code to generate a table of a given array
+ */
 function makeTableHTML(myArray) {
     var result = "<table border=1>";
     for(var i=0; i<myArray.length; i++) {
@@ -172,6 +182,23 @@ function makeTableHTML(myArray) {
     return result;
 }
 
-console.table(contentTable);
-document.getElementById("tbody").innerHTML = makeTableHTML(contentTable);
-document.getElementById("pbody").innerHTML = "Total length: " + (Math.round(totalDistance() * 100) / 100) + " m";
+// Commands
+
+fillPointsInsideOrOutside();
+fillIntersectIndexArray();
+calculatePointToPointDistances();
+calculateSubsequenceDistances();
+fillResultTable();
+resultTable.sort((a,b) => b[1]-a[1]); //Sort table
+convertArrayValues(resultTable); //Make it look nice
+
+//Display the results in console
+console.table(pointsInsideOrOutsideArray); //Display the arrays in console
+console.table(intersectIndexArray);
+console.table(distancesPointToPoint);
+console.table(distancesSubsequences);
+console.log(totalDistance()); //Display total length
+console.table(resultTable); //Display sorted and converted result table
+
+document.getElementById("tbody").innerHTML = makeTableHTML(resultTable); //Refers to the table body from the html-document and inserts the code generated in the makeTableHTML-function.
+document.getElementById("pbody").innerHTML = "Total length: " + (Math.round(totalDistance() * 100) / 100) + " m"; //Refers to the paragraph of the html-document and creates the output for the total length.
