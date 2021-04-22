@@ -1,4 +1,8 @@
+//author: Thalis Goldschmidt
+//Matrikelnr.: 462238
+
 "use strict"
+
 //Variables
 
 const leftUpperCorner =  polygon[3]; //Left upper corner of the polygon. It is constant because the polygon remains the same for all points.
@@ -160,8 +164,9 @@ function convertArrayValues(myArray) {
 
 /**
  * This function creates html-code to generate a table out of a two-dimensional array.
+ * Link: https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
  * @param {Array[][]} myArray two-dimensional array
- * @returns HTML-code to generate a table
+ * @returns HTML-code to generate a table of a given array
  */
 function makeTableHTML(myArray) {
     var result = "<table border=1>";
@@ -195,5 +200,5 @@ console.table(distancesSubsequences);
 console.log(totalDistance()); //Display total length
 console.table(resultTable); //Display sorted and converted result table
 
-document.getElementById("tbody").innerHTML = makeTableHTML(resultTable); //Refers to the table body from the html-document and inserts the code created in the makeTableHTML-function.
+document.getElementById("tbody").innerHTML = makeTableHTML(resultTable); //Refers to the table body from the html-document and inserts the code generated in the makeTableHTML-function.
 document.getElementById("pbody").innerHTML = "Total length: " + (Math.round(totalDistance() * 100) / 100) + " m"; //Refers to the paragraph of the html-document and creates the output for the total length.
