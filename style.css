@@ -1,5 +1,7 @@
-/*author: Thalis Goldschmidt */
-/*Matrikelnr.: 462238 */
+/**
+ * @author Thalis Goldschmidt
+ * Matrikelnr.: 462238 
+ */
 
 body {
     background-color: rgb(255, 255, 255);}
@@ -9,8 +11,8 @@ h1 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
 
 p {
-    text-align: justify;
-    width: 60%;
+    text-align: left;
+    width: 75%;
     color: rgb(0, 0, 0);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
     
