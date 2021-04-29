@@ -164,6 +164,8 @@
  
          dataTable.push(tableRow);
      }
+     dataTable.sort((a,b) => b[1]-a[1]); //Sort table
+     convertTableValues(dataTable); //Make the table look nicer
      return dataTable;
  }
  
@@ -193,10 +195,4 @@
          }
      }
  }
- 
- // Commands
- 
- let dataTable = calculateTableData(route); //Create table depending on given route and polygon. Parameters of the given polygon don't habe to be handed over because they were set as default values
- dataTable.sort((a,b) => b[1]-a[1]); //Sort table
- convertTableValues(dataTable); //Make the table look nicer
  

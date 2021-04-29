@@ -32,7 +32,7 @@ function makeTableHTML(myArray) {
 // Commands
 
 //Refers to the table body from the html-document and inserts the code generated in the makeTableHTML-function.
-document.getElementById("tbody").innerHTML = makeTableHTML(dataTable);
+//document.getElementById("tbody").innerHTML = makeTableHTML(dataTable);
 
 //Refers to the paragraph of the html-document and creates the output for the total length.
-document.getElementById("pbody").innerHTML = "Total length: " + (Math.round(totalDistance(route) * 100) / 100) + " m";
+//document.getElementById("pbody").innerHTML = "Total length: " + (Math.round(totalDistance(route) * 100) / 100) + " m";
