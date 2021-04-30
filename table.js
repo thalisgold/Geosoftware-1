@@ -1,7 +1,7 @@
 /**
  * @author Thalis Goldschmidt
  * Matrikelnr.: 462238
- * This file includes all functions that are necessary to create the data needed for the table.
+ * This file includes all functions that are necessary to create the data needed for the table and to insert it in the html document.
  */
 
  "use strict"
@@ -164,6 +164,8 @@
  
          dataTable.push(tableRow);
      }
+     dataTable.sort((a,b) => b[1]-a[1]); //Sort table
+     convertTableValues(dataTable); //Make the table look nicer
      return dataTable;
  }
  
@@ -194,9 +196,22 @@
      }
  }
  
- // Commands
- 
- let dataTable = calculateTableData(route); //Create table depending on given route and polygon. Parameters of the given polygon don't habe to be handed over because they were set as default values
- dataTable.sort((a,b) => b[1]-a[1]); //Sort table
- convertTableValues(dataTable); //Make the table look nicer
- 
+/**
+ * This function creates html-code to generate a table out of a two-dimensional array.
+ * Link: https://stackoverflow.com/questions/15164655/generate-html-table-from-2d-javascript-array
+ * @param {Array[][]} myArray two-dimensional array
+ * @returns HTML-code to generate a table of a given array
+ */
+function makeTableHTML(myArray) {
+    var result = "<table border=1>";
+    for(var i=0; i<myArray.length; i++) {
+        result += "<tr>";
+        for(var j=0; j<myArray[i].length; j++){
+            result += "<td>"+myArray[i][j]+"</td>";
+        }
+        result += "</tr>";
+    }
+    result += "</table>";
+
+    return result;
+}
