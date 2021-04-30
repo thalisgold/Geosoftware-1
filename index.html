@@ -8,26 +8,25 @@
     <script src="polygon.js"></script>
     <script src="route.js"></script>
     <script defer src="table.js"></script>
-    <script defer src="main.js"></script>
     <script defer src="uploader.js"></script>
 </head>
 <body>
     <h1>Assignment 02</h1>
     <p>by Thalis Goldschmidt</p>
-    <div id="uploadform">
+    <div id="uploaddiv">
         <h3>Please upload your route as a .geojson file</h3>
         <input type="file" id = "uploadfield">
     </div>
     <p>
-    <div id="buttons">
-        <button id = "button1"> Use uploaded .geojson file</button>
-        <button id = "button2"> Use default .geojson file</button>
+    <div id="buttonsdiv">
+        <button id = "buttonUploaded"> Use uploaded .geojson file</button>
+        <button id = "buttonDefault"> Use default .geojson file</button>
     </div>
     </p>
-    
     <div id="dataTable" style="display: none;">
         <h3>Result table</h3>
-        <p> This table shows different sections of the uploaded route that runs through the given polygon.
+        <p>
+            This table shows different sections of the uploaded route that runs through the given polygon.
             The sections are sorted by length. In addition to that, the table shows the starting and end 
             point of the the section and tells us if the section is inside or outside the polygon. 
             The lengths are round to two decimal places.
@@ -45,16 +44,16 @@
      <p id= "pbody"></p> <!-- Paragraph to display the total length. The command is executed in the main.js file-->
      </div>
      <p></p>
-     <div id="displayGeoJSONButtons">
-        <button id = "button3"> Show selected route as .geojson file</button>
-        <button id = "button4"> Show polygon as .geojson file</button>
+     <div>
+        <button id = "buttonRouteAsString"> Show selected route as .geojson file</button>
+        <button id = "buttonPolygonAsString"> Show polygon as .geojson file</button>
      </div>
      <p></p>
-     <div id="displayResult3Box" style="display: none;">
-        <p id = "result3" style="display: none;"></p>
+     <div id="routeAsStringdiv" style="display: none;">
+        <p id = "paragraphRouteAsString"></p>
      </div>
      <p></p>
-     <div id="displayResult4Box" style="display: none;">
-        <p id = "result4" style="display: none;"></p>
+     <div id="polygonAsStringdiv" style="display: none;">
+        <p id = "paragraphPolygonAsString"></p>
      </div>
 </body>

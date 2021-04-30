@@ -10,8 +10,7 @@ body {
 h1,h2,h3 {
     color: rgb(0, 0, 0);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    ;}
+    text-align: center;}
 
 p {
     text-align: center;
@@ -29,6 +28,4 @@ div {
     width: 1000px;
     border: 2px solid rgb(0, 0, 0);
     padding: 30px;
-    margin: auto;
-  
-}
+    margin: auto;}
