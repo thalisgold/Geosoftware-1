@@ -13,6 +13,7 @@
 </head>
 <body>
     <h1>Assignment 02</h1>
+    <p>by Thalis Goldschmidt</p>
     <div id="uploadform">
         <h3>Please upload your route as a geojson file</h3>
         <input type="file" id = "uploadfield">
@@ -26,10 +27,11 @@
     
     <div id="dataTable" style="display: none;">
         <h3>Result table</h3>
-        <p> This table shows different sections the uploaded route that runs through the given polygon.
-        The sections are sorted by length. In addition to that, the table shows the starting  
-        and end point of the the section and tells us if the section is inside or outside 
-        the polygon. The lengths are round to two decimal places.</p>
+        <p> This table shows different sections of the uploaded route that runs through the given polygon.
+            The sections are sorted by length. In addition to that, the table shows the starting and end 
+            point of the the section and tells us if the section is inside or outside the polygon. 
+            The lengths are round to two decimal places.
+        </p>
         <table> 
             <tr>
                 <th>Sequence</th>
@@ -42,13 +44,17 @@
       </table>
      <p id= "pbody"></p> <!-- Paragraph to display the total length. The command is executed in the main.js file-->
      </div>
+     <p></p>
      <div id="displayGeoJSONButtons">
         <button id = "button3"> Show selected route as .geojson file</button>
         <button id = "button4"> Show polygon as .geojson file</button>
      </div>
-     <div id="displayResultButton3">
+     <p></p>
+     <div id="displayResult3Box" style="display: none;">
         <p id = "result3" style="display: none;"></p>
-     <div id="displayResultButton4">
+     </div>
+     <p></p>
+     <div id="displayResult4Box" style="display: none;">
         <p id = "result4" style="display: none;"></p>
      </div>
 </body>

@@ -18,6 +18,8 @@
 
 
  let tablediv = document.getElementById("dataTable");
+ let result3Box = document.getElementById("displayResult3Box")
+ let result4Box = document.getElementById("displayResult4Box")
 
 
 buttonUploaded.addEventListener("click", function(){
@@ -60,11 +62,13 @@ button3.addEventListener("click", function(){
     if (showRouteAsGeoJSON == false)
     {
         result3div.style.display = "block";
+        result3Box.style.display = "block";
         showRouteAsGeoJSON = true;
     }   
     else
     {
         result3div.style.display = "none";
+        result3Box.style.display = "none";
         showRouteAsGeoJSON = false;
 
     }
@@ -75,11 +79,13 @@ let showPolygonAsGeoJSON = false;
 button4.addEventListener("click", function(){
     if (showPolygonAsGeoJSON == false){
         result4div.style.display = "block";
+        result4Box.style.display = "block";
         showPolygonAsGeoJSON = true;
     }
     else
     {
         result4div.style.display = "none";
+        result4Box.style.display = "none";
         showPolygonAsGeoJSON = false;
     }
 })
@@ -101,10 +107,3 @@ function makePolygonToGeoJSON(inputPoints){
 
     return json;
 }
-
-
- // Commands
- 
- //let dataTable = calculateTableData(route); //Create table depending on given route and polygon. Parameters of the given polygon don't habe to be handed over because they were set as default values
- //dataTable.sort((a,b) => b[1]-a[1]); //Sort table
- //convertTableValues(dataTable); //Make the table look nicer

@@ -4,15 +4,17 @@
  */
 
 body {
-    background-color: rgb(255, 255, 255);}
+    text-align: center;
+    background-color: rgba(255, 255, 255);}
 
 h1,h2,h3 {
     color: rgb(0, 0, 0);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    ;}
 
 p {
-    text-align: left;
-    width: 75%;
+    text-align: center;
     color: rgb(0, 0, 0);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
     
@@ -21,3 +23,12 @@ table, th, td {
     border-collapse: collapse;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;}
+
+div {
+    align-items: center;
+    width: 1000px;
+    border: 2px solid rgb(0, 0, 0);
+    padding: 30px;
+    margin: auto;
+  
+}
