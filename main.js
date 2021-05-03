@@ -19,6 +19,8 @@
 
  let tablediv = document.getElementById("dataTable"); //container for the table that has to be calculated
 
+ let buttonsAsStringsdiv = document.getElementById("buttonsAsStringdiv") //container for the buttons to show the chosen route or polygon as string
+
  let routeAsStringdiv = document.getElementById("routeAsStringdiv") //container to show the selected or default .geojson file as string
  let buttonRouteAsString = document.getElementById("buttonRouteAsString"); //button to display the .geojson file of the chosen route as a string
 
@@ -34,21 +36,47 @@
   * calls it to calculate the data table.
   */
 buttonUploaded.addEventListener("click", function(){
+    buttonsAsStringsdiv.style.display = "block"; //makes the buttons that can show the route or polygon as string visible
     if (uploadfield.files.length > 0){ //if someone has uploaded a file
         var reader = new FileReader(); //creates a reader
-        reader.readAsText(uploadfield.files[0]); //reads the file
-        reader.addEventListener("load", function(){ //loads the file
-            let inputRouteAsGeoJSON = JSON.parse(reader.result); //creates a .json file of the uploaded route
-            let inputRouteAsString = JSON.stringify(inputRouteAsGeoJSON); //transforms the .geojson file of the route into a string
-            let polygonAsGeoJSON = makePointArrayToGeoJSONPolygon(polygon) //creates a .geojson file of the polygon
-            let polygonAsString = JSON.stringify(polygonAsGeoJSON); // transforms the .geojson file of the polygon into a string
+        if (checkFileExtension()){ //checks if the uploaded file is of the type .geojson
+            reader.readAsText(uploadfield.files[0]); //reads the file
+            reader.addEventListener("load", function(){ //loads the file
+                let inputRouteAsGeoJSON = JSON.parse(reader.result); //creates a .json file of the uploaded route 
+                if (inputRouteAsGeoJSON.type == "LineString") //checks if the .json object is of the type "LineString"
+                {
+                    let inputRouteAsString = JSON.stringify(inputRouteAsGeoJSON); //transforms the .json file of the route into a string
+                    let polygonAsGeoJSON = makePointArrayToGeoJSONPolygon(polygon) //creates a .geojson file of the polygon
+                    let polygonAsString = JSON.stringify(polygonAsGeoJSON); // transforms the .geojson file of the polygon into a string
 
-            showResultTable(inputRouteAsGeoJSON, inputRouteAsString, polygonAsString); //hands over all parameters needed to calculate the data table
-        })
-    }  
-    else
+                    showResultTable(inputRouteAsGeoJSON, inputRouteAsString, polygonAsString); //hands over all parameters needed to calculate the data table
+                }
+                else 
+                    alert("Error: The .geojson file is not of the type LineString") //if the .json type is not of the type LineString
+            })
+        }  
+        else
+            alert("Error: The file uploaded needs to be a .geojson file") //if the uploaded file is not of the type .geojson
+    }
+    else 
         alert("Error: No file was uploaded") //if the upload field is empty
+
 })
+
+/**
+ * This function checks if the file extension of the uploaded file is .geojson.
+ * @returns true if the file extesion is .geojson else false
+ */
+function checkFileExtension() {
+    let fileName = document.getElementById("uploadfield").value;
+    let extension = fileName.split('.').pop();
+    if (extension == "geojson"){
+        return true;
+    }
+    else{
+        return false;
+    }
+};
 
 /**
  * Implements the functionalities of the button "Use default .geojson file".
@@ -57,6 +85,7 @@ buttonUploaded.addEventListener("click", function(){
  * The function doesn't need to read a file, because it works with the default route.
  */
 buttonDefault.addEventListener("click", function(){
+    buttonsAsStringsdiv.style.display = "block"; //makes the buttons that can show the route or polygon as string visible
     let defaultRouteAsGeoJSON = makePointArrayToGeoJSONLineString(route); //creates a .geojson file of the default route
     let defaultRouteAsString = JSON.stringify(defaultRouteAsGeoJSON); //transforms the .geojson file of the route into a string
     let polygonAsGeoJSON = makePointArrayToGeoJSONPolygon(polygon) //creates a .geojson file of the polygon
