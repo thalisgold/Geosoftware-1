@@ -42,17 +42,19 @@ buttonUploaded.addEventListener("click", function(){
         if (checkFileExtension()){ //checks if the uploaded file is of the type .geojson
             reader.readAsText(uploadfield.files[0]); //reads the file
             reader.addEventListener("load", function(){ //loads the file
-                let inputRouteAsGeoJSON = JSON.parse(reader.result); //creates a .json file of the uploaded route 
-                if (inputRouteAsGeoJSON.type == "LineString") //checks if the .json object is of the type "LineString"
-                {
-                    let inputRouteAsString = JSON.stringify(inputRouteAsGeoJSON); //transforms the .json file of the route into a string
-                    let polygonAsGeoJSON = makePointArrayToGeoJSONPolygon(polygon) //creates a .geojson file of the polygon
-                    let polygonAsString = JSON.stringify(polygonAsGeoJSON); // transforms the .geojson file of the polygon into a string
+            if (isJsonParsable(reader.result)){ //checks if the input file is a valid json file
+                    let inputRouteAsGeoJSON = JSON.parse(reader.result); //creates a .json file of the uploaded route 
+                    if (inputRouteAsGeoJSON.type == "LineString") //checks if the .json object is of the type "LineString"
+                    {
+                        let inputRouteAsString = JSON.stringify(inputRouteAsGeoJSON); //transforms the .json file of the route into a string
+                        let polygonAsGeoJSON = makePointArrayToGeoJSONPolygon(polygon) //creates a .geojson file of the polygon
+                        let polygonAsString = JSON.stringify(polygonAsGeoJSON); // transforms the .geojson file of the polygon into a string
 
-                    showResultTable(inputRouteAsGeoJSON, inputRouteAsString, polygonAsString); //hands over all parameters needed to calculate the data table
+                        showResultTable(inputRouteAsGeoJSON, inputRouteAsString, polygonAsString); //hands over all parameters needed to calculate the data table
+                    }
+                    else 
+                        alert("Error: The .geojson file is not of the type LineString") //if the .json type is not of the type LineString
                 }
-                else 
-                    alert("Error: The .geojson file is not of the type LineString") //if the .json type is not of the type LineString
             })
         }  
         else
@@ -62,6 +64,23 @@ buttonUploaded.addEventListener("click", function(){
         alert("Error: No file was uploaded") //if the upload field is empty
 
 })
+
+/**
+ * Function that checks if the geojson file is a valid json file.
+ * @param {string} string 
+ * @returns true if it is a valid json file otherwise false 
+ */
+var isJsonParsable = string => {
+    try{
+        JSON.parse(string);
+    }
+    catch (error){
+        alert('Error: This file is not a json file')
+        return false
+
+    }
+    return true;
+}
 
 /**
  * This function checks if the file extension of the uploaded file is .geojson.
