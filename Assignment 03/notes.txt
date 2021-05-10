@@ -1,0 +1,34 @@
+////////////////////
+//Aktuelles Wetter//
+////////////////////
+
+Datum und Wochentag current.dt
+Temperatur °C aktuell current.temp
+Temperatur °C gefühlt current.feels_like
+Wind (Geschwindigkeit(m/s) und Richtung) current.wind_speed / current.wind_deg  
+Feuchtigkeit (%) current.humidity
+Bewölkung current.clouds
+Regen (j/n) current.rain.1h
+
+(curernt.weather.icon)
+
+
+///////////////
+///Vorhersage//
+///////////////
+
+stündlich:
+Zeit hourly.dt
+Temperatur (nächste 5 Std) hourly.temp
+Niederschlagswahrscheinlichkeit (nächste 5 Std) hourly.pop
+Bewölkung hourly 
+
+(hourly.weather.icon)
+
+tägliche:
+Zeit daily.dt
+Tempeartur (nächste 5 Std) daily.temp.min/daily.temp.max
+Niederschlagswahrscheinlichkeit (nächste 5 Tage) daily.pop
+Bewölkung daily.clouds
+
+(daily.weather.icon)
