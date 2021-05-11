@@ -1,7 +1,7 @@
 /**
  * @author Thalis Goldschmidt
  * @author Fabian Schumacher
- * This file was created to the manage the process of getting information about the weather at the current location of the device in use.
+ * This file was created to the manage the process of getting information about the weather at the current position of the device in use.
  * It implements the functionality of the "Get weather at my position"-button.
  */
 
@@ -17,7 +17,7 @@ let currentWeatherDiv = document.getElementById("currentWeatherDiv"); //containe
 
 /**
  * If the user allows us to get his current position, we use the incoming data in two further functions 
- * to get information about the weather and to find out in which city he actually is.
+ * to get the information about the weather and to find out in which city he actually is (by doing reverse geocoding).
  * @param {GeolocationPosition} pos 
  */
 function success(pos) {
@@ -27,7 +27,7 @@ function success(pos) {
     loadWeatherAtPosition(latitude, longitude);
     getCity(latitude,longitude);
 
-    document.getElementById("accuracy").innerHTML = "Accuracy: " + pos.coords.accuracy + "m";
+    document.getElementById("accuracy").innerHTML = "Accuracy: " + pos.coords.accuracy + "m"; //displays the accuracy of the position
 }
 
 /**
@@ -46,16 +46,17 @@ buttonGetPosition.addEventListener('click', function(){
 })
 
 /**
- * 
- * @param {*} latitude 
- * @param {*} longitude 
+ * This function uses the mapbox api to do reverse geocoding.
+ * We get the information in which city the user is depending on the coordinates of his current position.
+ * @param {float} latitude latitude coordinate of the position
+ * @param {float} longitude longitude coordinate of the position
  */
 function getCity(latitude, longitude){
     let apiKey = mapboxApiKey;
-    var xhttp1 = new XMLHttpRequest();
-    xhttp1.open("GET", `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${apiKey}`, true)
-    xhttp1.send();
-    xhttp1.onreadystatechange = function() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${apiKey}`, true)
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200){
             let positionData = JSON.parse(this.responseText);
             var positionDescription = positionData.features[2].place_name;
@@ -65,37 +66,43 @@ function getCity(latitude, longitude){
 }
 
 /**
- * 
- * @param {*} latitude 
- * @param {*} longitude 
+ * This function uses the openweather api to retrieve information about the weather at the users current position. 
+ * @param {float} latitude latitude coordinate of the position
+ * @param {float} longitude longitude coordinate of the position
  */
 function loadWeatherAtPosition(latitude, longitude){
     let apiKey = openweatherApiKey;
-    var xhttp2 = new XMLHttpRequest();
-    //xhttp.onload = loadcallback;
-    //xhttp.onerror = errorcallback;
-    xhttp2.onreadystatechange = function() {
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200){
             let weatherData = JSON.parse(this.responseText);
-            showWeatherAtPosition(weatherData);
+            showWeatherAtPosition(weatherData); //calls function to display the data
         } 
     }
-    xhttp2.open("GET", `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`, true);
-    xhttp2.send();
+    xhttp.open("GET", `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`, true);
+    xhttp.send();
 
 }
 
 /**
- * 
- * @param {*} weatherData 
+ * This functions fills the html document with the weather data retrieved in the loadWeatherAtPosition function.
+ * @param {JSON} weatherData 
  */
 function showWeatherAtPosition(weatherData){
-    currentPositionDiv.style.display = "block";
-    currentWeatherDiv.style.display = "block";
+    currentPositionDiv.style.display = "block"; //changes visibility of the container to show the results
+    currentWeatherDiv.style.display = "block"; //changes visibility of the container to show the results
+
     //displaying the date
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
     let currentDt = new Date(weatherData.current.dt * 1000).toLocaleDateString("EN-EN", options);
-    document.getElementById("currentDate").innerHTML = "Date: " + currentDt;
+    document.getElementById("currentDate").innerHTML = currentDt;
+
+    //displaying current weather symbol
+    let src = `http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`
+    document.getElementById("myImg").src = src;
+
+    //displaying short weather description
+    document.getElementById("weatherDescription").innerHTML = weatherData.current.weather[0].description
 
     //displaying the current temperature
     document.getElementById("currentTemp").innerHTML = "Current temperature: " + Math.round(weatherData.current.temp) + "°C";
@@ -103,7 +110,7 @@ function showWeatherAtPosition(weatherData){
     //displaying "feels-like" temperature
     document.getElementById("currentTempFeelsLike").innerHTML = "Feels-like temperature: " + Math.round(weatherData.current.feels_like) + "°C";
 
-    //displaying the current wind
+    //displaying the current wind (speed and direction)
     document.getElementById("currentWind").innerHTML = "Wind speed and direction: " + weatherData.current.wind_speed + " m/s, " + weatherData.current.wind_deg + "°";
 
     //displaying the current humidity 
@@ -111,12 +118,4 @@ function showWeatherAtPosition(weatherData){
 
     //displaying the current clouds
     document.getElementById("currentClouds").innerHTML = "Cloudiness: " + weatherData.current.clouds + "%";
-
-    //displaying current rain
-    //document.getElementById("currentRain").innerHTML = "Rainfall in the last 60 minutes: " + weatherData.current.rain.1h + "[mm]";
-
-    //displaying current weather symbol
-    let src = `http://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`
-    let img = document.createElement('img');
-    document.getElementById("myImg").src = src;
 }

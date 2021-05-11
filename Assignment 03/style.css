@@ -1,11 +1,10 @@
 /**
- * @author Thalis Goldschmidt
- * Matrikelnr.: 462238 
+ * @author Thalis Goldschmidt, Fabian Schumacher
  */
 
  body {
     text-align: center;
-    background-color: rgba(255, 255, 255);}
+    background-color: rgb(255, 255, 255);}
 
 h1,h2,h3 {
     color: rgb(0, 0, 0);
@@ -30,4 +29,4 @@ div {
     width: 1000px;
     border: 2px solid rgb(0, 0, 0);
     padding: 30px;
-    margin: auto;}
+    margin: auto; margin-top: 15px;}
