@@ -26,7 +26,8 @@ table, th, td {
 
 div {
     align-items: center;
-    width: 1000px;
+    background-color: rgb(176, 227, 250);
+    width: 30%;
     border: 2px solid rgb(0, 0, 0);
     padding: 30px;
     margin: auto; margin-top: 15px;}

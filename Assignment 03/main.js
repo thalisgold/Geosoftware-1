@@ -1,7 +1,7 @@
 /**
  * @author Thalis Goldschmidt
  * @author Fabian Schumacher
- * This file was created to the manage the process of getting information about the weather at the current position of the device in use.
+ * This file was created to manage the process of getting information about the weather at the current position of the device in use.
  * It implements the functionality of the "Get weather at my position"-button.
  */
 
@@ -16,6 +16,13 @@ let currentWeatherDiv = document.getElementById("currentWeatherDiv"); //containe
 // Functions
 
 /**
+ * When the user presses the button, the function asks the user whether he can query his location.
+ */
+ buttonGetPosition.addEventListener('click', function(){
+    navigator.geolocation.getCurrentPosition(success, error);
+})
+
+/**
  * If the user allows us to get his current position, we use the incoming data in two further functions 
  * to get the information about the weather and to find out in which city he actually is (by doing reverse geocoding).
  * @param {GeolocationPosition} pos 
@@ -25,7 +32,7 @@ function success(pos) {
     let longitude = pos.coords.longitude;
 
     loadWeatherAtPosition(latitude, longitude);
-    getCity(latitude,longitude);
+    getReadebleLocation(latitude,longitude);
 
     document.getElementById("accuracy").innerHTML = "Accuracy: " + pos.coords.accuracy + "m"; //displays the accuracy of the position
 }
@@ -39,19 +46,12 @@ function error(error) {
 }
 
 /**
- * When the user presses the button, the function asks the user whether he can query his location.
- */
-buttonGetPosition.addEventListener('click', function(){
-    navigator.geolocation.getCurrentPosition(success, error);
-})
-
-/**
  * This function uses the mapbox api to do reverse geocoding.
- * We get the information in which city the user is depending on the coordinates of his current position.
+ * We get readeble information about the location depending on the coordinates of his current position.
  * @param {float} latitude latitude coordinate of the position
  * @param {float} longitude longitude coordinate of the position
  */
-function getCity(latitude, longitude){
+function getReadebleLocation(latitude, longitude){
     let apiKey = mapboxApiKey;
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${apiKey}`, true)
@@ -60,7 +60,7 @@ function getCity(latitude, longitude){
         if (this.readyState == 4 && this.status == 200){
             let positionData = JSON.parse(this.responseText);
             var positionDescription = positionData.features[2].place_name;
-            document.getElementById("positionDescription").innerHTML = "You are currently in: " +  positionDescription;
+            document.getElementById("positionDescription").innerHTML = positionDescription;
         } 
     }
 }
