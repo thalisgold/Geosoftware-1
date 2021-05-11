@@ -1,17 +1,27 @@
+<!-- author: Thalis Goldschmidt, Fabian Schumacher -->
+
 <!DOCTYPE html>
 <head>
     <title>Geosoftware 1 - Assignment 03</title>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="style.css">
     <script defer src="main.js"></script>
+    <script defer src="api-keys.js"></script>
 </head>
 <h1>Assignment 03</h1>
-<p>by Thalis Goldschmidt</p>
-    <button id = "buttonGetPosition">Get my position</button>
-    <p id="myPosition"></p>
-    <div style="margin-top: 15px;">
-        <p>The current positin is:</p>
-        <p id="coordinates"></p>
+<p>by Thalis Goldschmidt and Fabian Schumacher</p>
+    <button id = "buttonGetPosition">Get weather at my position</button>
+    <div id="currentPositionDiv", style="display: none;">
+        <p id="positionDescription"></p>
         <p id="accuracy"></p>
     </div> 
-
-<!--<a id = "map-link" target="_blank"></a>
+    <div id="currentWeatherDiv", style="display: none;">
+        <p id = "currentDate"></p>
+        <img id= "myImg" ></img>
+        <p id = "weatherDescription", style="font-size: small";></p>
+        <p id = "currentTemp"></p>
+        <p id = "currentTempFeelsLike"></p>
+        <p id = "currentWind"></p>
+        <p id = "currentHumidity"></p>
+        <p id = "currentClouds"></p>
+    </div>
