@@ -1,2 +1,0 @@
-const openweatherApiKey = "817a6d7b9d3034dc29c06604bd82846a";
-const mapboxApiKey = "pk.eyJ1IjoidGhhbGlzZ29sZCIsImEiOiJja29paDQ0Mm0wa3ZwMnBzMWFqanBmdmJjIn0.Rr-_s_YVsWA4TEG_xKKYdw";
