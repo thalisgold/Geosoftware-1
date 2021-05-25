@@ -1,5 +1,19 @@
 /**
- * @author Thalis Goldschmidt, Fabian Schumacher
+ * @author Thalis Goldschmidt
  */
+
+body {
+    background-color: rgb(255, 255, 255);}
+
+h1,h2,h3 {
+    color: rgb(0, 0, 0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;}
+
+p {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
 #map { 
-    height: 600px;} 
+    height: 700px;} 
