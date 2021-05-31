@@ -1,0 +1,36 @@
+/**
+ * @author Thalis Goldschmidt
+ */
+
+body {
+    background-color: rgb(255, 255, 255);}
+
+p {
+    text-align: center;
+    }
+
+/* CSS-settings used for screen-width bigger than 1024px*/
+@media screen and (min-width: 768px){
+    #map { 
+        height: 100vh; 
+        width: 50vw;
+        float: left;
+    }
+    
+    #addInfos { 
+        height: 100vh;
+        width: 50vw;
+        float: right;
+    }
+}
+
+/* CSS-settings used for screen-width bigger than 536px and smaller than 1024px*/
+@media screen and (max-width: 767px){
+    #map { 
+        height: 80vh;
+    }
+    
+    #addInfos { 
+        height: 20vh;
+    }
+}
