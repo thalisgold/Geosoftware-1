@@ -176,7 +176,7 @@ function createPopupInfo(marker, weatherData, locationName){
     let humidity = "Humidity: " + weatherData.current.humidity + "%";
  
     //displaying all the variables created before
-    marker.bindPopup("<center>" + "<h3>" + locationName + "</h3>" + "</br>" 
+    marker.bindPopup("<center>" + "<h5>" + locationName + "</h5>" + "</br>" 
                                 + currentDt + "</br>"
                                 + "<img src = " + src + " />" + "</br>"
                                 + weatherDescription + "</br>"

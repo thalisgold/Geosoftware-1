@@ -1,0 +1,51 @@
+/**
+ * @author Thalis Goldschmidt
+ */
+
+body {
+    background-color: rgb(255, 255, 255);}
+
+p {
+    text-align: center;
+    }
+
+/* CSS-settings used for screen-width bigger than 1024px*/
+@media screen and (min-width: 768px){
+    html {
+        height: 100%;
+    }
+
+    body {height: 100%;
+    }
+    
+    #map { 
+        height: 100%; 
+        width: 50%;
+        float: left;
+    }
+    
+    #addInfos { 
+        height: 100%;
+        width: 50%;
+        float: right;
+    }
+}
+
+/* CSS-settings used for screen-width bigger than 536px and smaller than 1024px*/
+@media screen and (max-width: 767px){
+
+    html{
+        height: 100%;
+    }
+    
+    body {height: 100%;
+    }
+
+    #map { 
+        height: 80%;
+    }
+    
+    #addInfos { 
+        height: 20%;
+    }
+}
