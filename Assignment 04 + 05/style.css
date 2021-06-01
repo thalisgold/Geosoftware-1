@@ -9,7 +9,7 @@ p {
     text-align: center;
     }
 
-/* CSS-settings used for screen-width bigger than 1024px*/
+/* CSS-settings used for screen-width bigger than 768px*/
 @media screen and (min-width: 768px){
     html {
         height: 100%;
@@ -31,7 +31,7 @@ p {
     }
 }
 
-/* CSS-settings used for screen-width bigger than 536px and smaller than 1024px*/
+/* CSS-settings used for screen-width smaller than 768px*/
 @media screen and (max-width: 767px){
 
     html{
