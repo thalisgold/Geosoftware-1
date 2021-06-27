@@ -1,0 +1,35 @@
+extends 0_layout
+
+block scripts
+    
+    // Loading leaflet script and stylesheet
+    link(rel='stylesheet' href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css' integrity='sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==' crossorigin='')
+    script(src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js' integrity='sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==' crossorigin='')
+    
+    // Loading the leaflet draw plugin
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js')
+    
+    // Loading turf script
+    script(src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js')
+
+    // Loading scripts
+    script(src='/javascripts/keys.js')
+    script(src='/geojson/routeDB.geojson' type='text/javascript')
+    script(src='/javascripts/coordinates.js')
+    script(defer='' src='/javascripts/switchRoutes.js')
+    script(defer='' src='/javascripts/map.js')
+    script(defer='' src='/javascripts/main.js')
+
+block content 
+    // Map section
+    #map
+    // Information section
+    #infos
+        form(id="formSelectRoute" name="routes" method="get" enctype='multipart/form-data')
+            label(for="routes") #{title}
+            select(name="routes" id="routes")
+                option(value="0") Please select a route...
+                each n, index in routes
+                    option(value=n.properties.name id=n._id) #{n.properties.name}
+            input(id="submit" type="submit" value="Submit")

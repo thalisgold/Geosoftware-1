@@ -1,0 +1,77 @@
+/* CSS-settings used for screen-width bigger than 1024px*/
+@media screen and (min-width: 1024px){
+    html {
+        height: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+    }
+
+    #map { 
+        height: 100%; 
+        width: 50%;
+        float: left;
+    }
+    
+    #infos { 
+        height: 100%;
+        margin-left: 50%;
+    }
+
+    #manageRoutes {
+        height: 100%;
+    }
+
+    #formAddRoute {
+        margin: 10px;
+    }
+
+    #deleteButton {
+        margin: 10px;
+    }
+
+    p,h5 {
+        text-align: center;
+    }
+}
+
+/* CSS-settings smaller than 1024px*/
+@media screen and (max-width: 1023px){
+    html {
+        height: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+    }
+
+    #map { 
+        height: 70%; 
+        width: 100%
+    }
+
+    #infos {
+        height:30%;
+        width: 100%
+    }
+
+    #manageRoutes {
+        height: 100%;
+    }
+
+    #formAddRoute {
+        margin: 10px;
+    }
+
+    #deleteButton {
+        margin: 10px;
+    }
+    
+    p,h5 {
+        text-align: center;
+    }
+    
+}
